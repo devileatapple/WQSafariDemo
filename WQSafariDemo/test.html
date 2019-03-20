@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width">
+    <title>测试叮叮咚</title>
+</head>
+
+<body>
+<script>
+    var cookie = document.cookie;
+    var testcookies = cookie.match(/testcookie=(\w+)/);
+    var testcookie;
+
+    if (testcookies) {
+        testcookie = testcookies[1];
+        document.writeln("当前cookie " + testcookie + '.');
+    } else {
+        document.writeln("当前没有cookie，输入一个 ");
+        testcookie = "";
+    }
+
+    function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    var Schemes = getParameterByName("Schemes");
+    if (Schemes) {
+        if (testcookie.length > 0) {
+            location.href = Schemes+"://testcookie/" + testcookie;
+        } else  {
+            location.href = Schemes+"://";
+        }
+    }
+
+    function saveTestcookie() {
+        document.cookie = 'testcookie=' + document.getElementById('testcookie').value + ';max-age=3600';
+        location.reload();
+    }
+
+</script>
+
+<input type="text" id="testcookie">
+<input type="submit" id="submit_cookie" value="新cookie保存" onclick="saveTestcookie();">
+
+</body>
+</html>
